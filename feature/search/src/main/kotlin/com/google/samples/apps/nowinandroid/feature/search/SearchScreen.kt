@@ -451,18 +451,22 @@ private fun SearchToolbar(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth(),
     ) {
-        IconButton(onClick = { onBackClick() }) {
+        IconButton(
+            onClick = { onBackClick() },
+            modifier = Modifier.testTag("BackButton"),
+        ) {
             Icon(
                 imageVector = NiaIcons.ArrowBack,
                 contentDescription = stringResource(
                     id = string.core_ui_back,
                 ),
+                modifier = Modifier.testTag("BackIcon")
             )
         }
         SearchTextField(
             onSearchQueryChanged = onSearchQueryChanged,
             onSearchTriggered = onSearchTriggered,
-            searchQuery = searchQuery,
+            searchQuery = searchQuery
         )
     }
 }
@@ -471,7 +475,7 @@ private fun SearchToolbar(
 private fun SearchTextField(
     searchQuery: String,
     onSearchQueryChanged: (String) -> Unit,
-    onSearchTriggered: (String) -> Unit,
+    onSearchTriggered: (String) -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -502,6 +506,7 @@ private fun SearchTextField(
                     onClick = {
                         onSearchQueryChanged("")
                     },
+                    modifier = Modifier.testTag("ClearButton")
                 ) {
                     Icon(
                         imageVector = NiaIcons.Close,
@@ -517,6 +522,7 @@ private fun SearchTextField(
             if ("\n" !in it) onSearchQueryChanged(it)
         },
         modifier = Modifier
+            .testTag("SearchTextField")
             .fillMaxWidth()
             .padding(16.dp)
             .focusRequester(focusRequester)
@@ -528,8 +534,7 @@ private fun SearchTextField(
                 } else {
                     false
                 }
-            }
-            .testTag("searchTextField"),
+            },
         shape = RoundedCornerShape(32.dp),
         value = searchQuery,
         keyboardOptions = KeyboardOptions(
